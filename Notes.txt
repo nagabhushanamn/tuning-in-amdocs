@@ -1,0 +1,257 @@
+
+
+java tech
+---------
+
+ - java SE
+
+    - application
+    - applet
+
+- java EE
+
+    - web components ( sevlet & jsp )
+    - ejb components ( session , entity , MDB )
+
+-------------------------------------------
+
+java pogamming style 
+
+ java appln = component(s) + container
+
+ component ==> appl'n logic  
+ container ==> infra logic
+
+
+-------------------------------------------
+
+ - java SE
+
+    - application   ==> JRE
+    - applet        ==> browser with JRE
+
+ - java EE   
+
+    - web components ( sevlet & jsp ) ==> web container e.g tomcat, jetty , ...
+    - ejb components                  ==> ejb container e.g tomee
+
+
+ JEE sever  = web container + ejb container + entepise service
+
+   e.g
+
+   oracle   ==> weblogic
+   IBM      ==> websphere
+   JBOSS    ==> jboss
+
+
+------------------------------------------------------- 
+
+java language:
+
+performance factor(s)
+
+    - good design of appln
+    - good data-structures / collections
+    - good concurrency implementations
+
+--------------------------------------------------------
+
+Txr-system
+------------
+
+    1. model/data
+
+        - Customer
+        
+        - Account
+            -num
+            -balance
+
+        - Txn
+
+    2. layer(s)
+
+        a.  repository layer ==> persisting logic
+        b.  service layer    ==> pocessing logic
+        c.  web layer        ==> request / response logic
+
+
+--------------------------------------------------------
+
+
+
+ design & pefomance issues
+ ---------------------------
+
+ => dependent & dependency are tightly-coupled
+    -> can't extend with new features
+ => too many duplicate dependency instances are created & discarded
+    -> slow, memory/resouce use high
+ => unit-testing not possible
+    -> dev & bug fix slow
+
+reasons for these issues ?
+
+    -> dependent itself creating its own dependency
+
+soln:
+
+    -> dont create , do lookup on factory  ==> factory design pattern
+
+limitation on factory lookup ?
+
+    -> factory location tight coupling...
+
+best soln :
+
+    -> don't create / lookup , get inject by 'third-party'  ( inversion of contol ( ioc ))
+
+
+    how to implement IOC ?
+
+    -> dependency injection ( DI )
+
+        - constructor
+        - method
+
+
+
+
+--------------------------------------------------------
+OO concepts
+--------------------------------------------------------
+
+- Abstraction
+- Encasulation
+- Inheitance
+- Polymophism
+
+--------------------------------------------------------
+OO principles
+--------------------------------------------------------
+
+- Single Responsiblity
+- Open & closed
+- Liskov, substitution
+- Interface segregation 
+- dependency inversion
+
+SOLID principles
+
+
+
+--------------------------------------------------------
+OO patterns
+--------------------------------------------------------
+
+- creational
+- behav
+- stuctual
+
+
+
+
+--------------------------------------------------------
+// data stuctues / collections
+--------------------------------------------------------
+
+
+ -- CRUDSS
+
+
+1 . list
+
+        - ordered
+        - indexed
+        - duplicates
+
+2.  set
+
+        - unique
+
+3.  map
+
+        - key + value
+
+------------------------------------------------------
+
+e.g   hashTable 
+
+            - HashSet
+            - LinkedHashSet
+            - HashMap
+            - LinkekedHashMap
+            - Hashtable
+
+
+    |    |
+    |    |
+    |    |
+    |    |
+    |    |
+45  |hell| abc |
+    |    |
+    |    |
+    |    |
+
+
+
+e.g JRE's stingtable uses HashMap structure
+
+------------------------------------------------------------
+
+
+java concurrency 
+------------------
+
+
+   process vs thread
+
+
+    process:
+    --------
+
+        -> whole execution within OS
+        -> own's private memory
+
+    thread
+    ------    
+
+        -> light-weight process
+        -> within prrocess, multiple theads can share same heap-memory
+
+
+-------------------------------------------------------------------
+
+pogamming languages
+--------------------
+
+
+.java   ----->  .class ( byte codes )
+
+
+
+              
+
+
+
+
+
+
+
+
+
+
+    
+   
+
+            
+
+   
+
+
+    
+
+
+
