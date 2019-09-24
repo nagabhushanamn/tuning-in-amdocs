@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.example.model.Account;
 
-public class Ex5 {
+public class Ex6 {
 	
 	public static void main(String[] args) {
 		List<Account> accounts=new ArrayList<Account>();

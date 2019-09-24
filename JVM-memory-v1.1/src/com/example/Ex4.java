@@ -6,13 +6,11 @@ import java.util.List;
 //import java.util.Optional; //  JDK 1.8
 import java.util.UUID;
 
-
 /*
  * 
  *  memory leak
  * 
  */
-
 
 class TxrRequest {
 
@@ -62,9 +60,11 @@ class TxrRequest {
 
 }
 
+// Leaky Queue
+
 class TxrRequestQueue {
 
-	private List<TxrRequest> requests = new ArrayList<TxrRequest>(); //
+	private List<TxrRequest> queue = new ArrayList<TxrRequest>(); //
 
 	private int nextAvaialbleId = 0;
 	private int lastProcessedId = -1;
@@ -72,8 +72,8 @@ class TxrRequestQueue {
 	public void addTxrRequest(TxrRequest request) {
 		synchronized (this) {
 			request.setId(nextAvaialbleId);
-			synchronized (requests) {
-				requests.add(request);
+			synchronized (queue) {
+				queue.add(request);
 			}
 			nextAvaialbleId++;
 		}
@@ -81,31 +81,28 @@ class TxrRequestQueue {
 
 	public TxrRequest getNextTxrRequest() {
 
-		// bad code
-//
+		// memory leak
+		
 		synchronized (this) {
 			if (lastProcessedId + 1 > nextAvaialbleId) {
 				lastProcessedId++;
-				return requests.get(lastProcessedId);
+				return queue.get(lastProcessedId);
 			} else
 				return null;
 		}
 
-		// good code
-
+		// no memory leak
 //		synchronized (this) {
-//			if (requests.size() > 0) {
-//				return requests.remove(0);
-//			} else {
+//			if (queue.size() > 0) {
+//				return queue.remove(0);
+//			} else
 //				return null;
-//			}
 //		}
 
-		
 	}
 
 	public void printSummary() {
-		int size = requests.size();
+		int size = queue.size();
 		System.out.println("" + new Date() + " requests in queue : " + size + " of " + nextAvaialbleId);
 	}
 
@@ -172,6 +169,7 @@ public class Ex4 {
 	public static void main(String[] args) {
 
 		TxrRequestQueue txrRequestQueue = new TxrRequestQueue();
+
 		GenerateTxrRequestTask generateTxrRequestTask = new GenerateTxrRequestTask(txrRequestQueue);
 		ProcessTxrRequestTask processTxrRequestTask = new ProcessTxrRequestTask(txrRequestQueue);
 

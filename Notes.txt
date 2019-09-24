@@ -666,7 +666,7 @@ Introduction
        -XX:FlagName=something
 
 
-       ✔ -XX:+PrintFlagsFinal
+       ✔ java -XX:+PrintFlagsFinal
 
 
 
@@ -679,6 +679,7 @@ Introduction
  - perm-gen/method-area ( java 7 ) / meta-space ( java 8)
  - heap
  - stack
+ 
 
 
 
@@ -699,10 +700,10 @@ Internal JVM memory optimization
  ✔ string constant pool ( scp ) / sting table / hash-table data structure
  ✔ interning string  
     
-    - since java-7 , string pool lives in Heap.
+    - since java-7 , string table lives in Heap.
 
 
-    ------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------
 Tuning the JVM 's memory settings
 ------------------------------------------------------------------------------------------
 
@@ -733,8 +734,10 @@ Tuning the JVM 's memory settings
         -XX:+PrintStringTableStatistics
         -XX:StringTableSize=n
 
-        -XX:MaxHeapSize=n            ||  -Xmx
-        -XX:InitialHeapSize=n        ||  -Xms
+        -XX:MaxHeapSize=n            or  -Xmx
+        -XX:InitialHeapSize=n        or  -Xms
+
+                                         -Xss
 
         -XX:+UnlockDiagnosticVMOptions
         -XX:+PrintFlagsFinal
@@ -807,17 +810,31 @@ Analyzing a heap dump
 
 ✔ Generating Heap Dump
 
-- command line
+    way-1:
 
-    -XX:+HeapDumpOnOutOfMemoryError
-    -XX:HeapDumpPath=someFilePath
+        - command line
 
-> java -Xmx50m com.examples.Ex4
+            -XX:+HeapDumpOnOutOfMemoryError
+            -XX:HeapDumpPath=someFilePath
+
+        > java -Xmx50m com.examples.Ex4
+
+
+    way-2:
+
+    > jmap command line tool
+
+    way-3 :
+
+    > GUI based pofiling tools 
+
 
 
 ✔ Viewing Heap Dump    
 
+    way-1 : jhat command line tool
 
+    way-2 : Eclipse MAT tool
 
 
 ------------------------------------------------------------------------------------------
@@ -983,14 +1000,48 @@ To diagnose any memory problems, the Garbage Collection log file is the best pla
 
 
 
-    
+---------------------------------------------------------------------------------
+Ex.    
+---------------------------------------------------------------------------------
+
+Reachability
+
+any basic Garbage Collection algorithm mainly has two steps.
+
+ a. Mark all live objects. These objects are reachable from Garbage Collection roots.
+ b. Sweep away all unreachable objects.
+
+So, basically there are two types of objects in memory.
+
+    - Reachable: Any object with a direct path from a Garbage Collection root.
+    - Unreachable: Any object with no direct path from a Garbage Collection root.            
+
+Reachability and Garbage Collection roots
+What are Garbage Collection roots? The GC roots are the objects accessible from outside the heap. 
+The GC algorithms build a tree of live objects starting from these GC roots.
+
+Following are some GC roots.
+
+    System Class: Class loaded by bootstrap/system class loader.
+    Thread Block: Objects referred to from currently active thread blocks. (Basically all objects in active thread blocks when a GC is happening are GC roots)
+    Thread: Active Threads
+    Java Local: All local variables (parameters, objects or methods in thread stacks)
+    JNI Local: Local variables in native code
+    JNI Global: Global variables in native code
    
 
-            
+Shallow heap 
+    is the memory consumed by one object. The actual memory consumed by one object depends on the underlying architecture.
+Retained Heap 
+    of an object is the sum of shallow sizes of all objects in the retained set of that object.
 
-   
+Retained set 
+    of an object is the set of objects, which would be removed by GC when that particular object is garbage collected.   
 
 
+The Dominator Tree
+
+    An object x dominates an object y if every path in the object graph from the start (or the root) node to y must go through x.
     
 
 

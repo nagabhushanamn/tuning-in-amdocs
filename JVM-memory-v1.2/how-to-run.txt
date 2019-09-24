@@ -1,0 +1,35 @@
+
+
+
+
+
+Sample to a show memory references in a Java Application
+----------------------------------------------------------
+
+
+
+Ex.1
+
+java -Xmn1g -Xmx2g -XX:+PrintGC -XX:+PrintGCDetails -XX:+PrintGCDateStamps -javaagent:target/memoryref.jar -jar target/memoryref.jar
+
+
+mkdir heap1
+jmap -dump:file=heap1/heap.hprof $(pgrep -f memoryref)
+
+
+
+Analyzing the heap dump
+
+ - thru MAT
+
+
+
+
+Ex.2
+
+
+mkdir heap2
+jmap -dump:live,file=heap2/heap.hprof $(pgrep -f memoryref)
+
+
+

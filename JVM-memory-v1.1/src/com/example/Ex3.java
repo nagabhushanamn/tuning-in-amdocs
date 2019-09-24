@@ -18,8 +18,8 @@ public class Ex3 {
 		List<Account> accounts = new ArrayList<Account>();
 
 		for (int i = 0; i < 1000; i++) {
-//			Account account=new Account(String.valueOf(i), 1000.00);
-			accounts.add(new Account(String.valueOf(i), 1000.00));
+			Account account=new Account(String.valueOf(i), 1000.00);
+//			accounts.add(new Account(String.valueOf(i), 1000.00));
 		}
 
 		availableBytes = runtime.freeMemory();
