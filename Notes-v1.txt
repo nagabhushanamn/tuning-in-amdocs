@@ -415,11 +415,10 @@ online tools
 
 
 
-
 -----------------------------------------------------------------------------------------
 Introduction
 -----------------------------------------------------------------------------------------
-✔ Oracle HotSpot  ( our focus )
+✔ Oracle HotSpot  VM
 
 ✔ JVM Tuning Flags
 
@@ -466,7 +465,6 @@ The Complete Performance Story
 An Approach to Performance Testing
 -----------------------------------------------------------------------------------------
 
-
  ✔ Test a Real Application
  ✔ Understand Throughput, Batching, and Response Time
  ✔ Understand Variability
@@ -477,17 +475,14 @@ An Approach to Performance Testing
 A Java Performance Toolbox
 -----------------------------------------------------------------------------------------
 
-
  - Performance analysis is all about visibility
  - Visibility is all about tools. And so performance tuning is all about tools.
-
 
 
 Operating System Tools and Analysis
 -----------------------------------
 
 ✔ CPU Usage
-
     1. CPU time is the first thing 
        to examine when looking at performance of an application.
     2. The goal in optimizing code is to drive the CPU usage up (for a shorter period of time),
@@ -496,7 +491,6 @@ Operating System Tools and Analysis
 
 
 ✔ Disk Usage
-
     1. Monitoring disk usage is important for all applications.
        For applications that don’t directly write to disk,
        system swapping can still affect their performance.
@@ -518,8 +512,6 @@ Operating System Tools and Analysis
 
 Java Monitoring Tools
 -----------------------------------
-
-
     To gain insight into the JVM itself, 
     Java monitoring tools are required. 
 
@@ -528,41 +520,32 @@ Java Monitoring Tools
 
 
 ✔ jcmd   
-
     - Prints basic class, thread, and VM information for a Java process.
 
 
 ✔ jconsole
-
     - Provides a graphical view of JVM activities,
       including thread usage, class usage, and GC activities.
 
 ✔ jhat
-
     - Reads and helps analyze memory heap dumps.
       This is a postprocessing utility.
 
 ✔ jmap
-
     - Provides heap dumps and other information about JVM memory usage.Suitable for scripting.
 
 ✔ jinfo
-
     - Provides visibility into the system properties of the JVM,
       and allows some system properties to be set dynamically. Suitable for scripting.
 
 ✔ jstack
-    
     - Dumps the stacks of a Java process. Suitable for scripting.
 
 ✔ jstat
-    
     - Provides information about GC and class-loading activities. Suitable for scripting.
 
 ✔ jvisualvm
-    
     - A GUI tool to monitor a JVM, profile a running application, and analyze JVM heap dumps
-
 
 
 These tools fits into these broad areas:
@@ -578,7 +561,6 @@ These tools fits into these broad areas:
 
 Basic VM Information
 ---------------------
-
 
 ✔ Uptime
 
@@ -616,9 +598,6 @@ summary:
     2. Default flag values can be found by including -XX:+PrintFlags Final on a command line. This is useful for determining the default ergonomic settings of flags on a particular platform.
     3. jinfo is useful for inspecting (and in some cases changing) in‐ dividual flags.
 
-
-
-
 ✔ Thread Information
 
   % jstack process_id
@@ -631,8 +610,6 @@ summary:
 
 ✔ Heap Dump Postprocessing
 
-
-
 ✔ Profiling Tools
 
 
@@ -642,9 +619,6 @@ summary:
     - No tool is perfect, and competing tools have relative strengths.
     - Command-line monitoring tools can gather important data automatically
     - Tools rapidly evolve
-
-
-
 
 
 -----------------------------------------------------------------------------------------
@@ -674,21 +648,14 @@ Introduction
  VM - memory
  --------------------------------------------------------
 
-
-
  - perm-gen/method-area ( java 7 ) / meta-space ( java 8)
  - heap
  - stack
- 
-
-
 
  ✔ java.lang.OutOfMemoryError : PermGen
 
     -XX:PermSize=N
     -XX:MaxPermSize=N
-
-    
 
 
 ------------------------------------------------------------------------------------------
@@ -728,7 +695,6 @@ Tuning the JVM 's memory settings
     > java -XX:InitialHeapSize=1g -XX:+PrintStringTableStatistics -XX:StringTableSize=120121 com.example.Ex2
 
 
-
 ✔ Shortcut syntax for heap tuning flags
 
         -XX:+PrintStringTableStatistics
@@ -737,15 +703,12 @@ Tuning the JVM 's memory settings
         -XX:MaxHeapSize=n            or  -Xmx
         -XX:InitialHeapSize=n        or  -Xms
 
-                                         -Xss
-
         -XX:+UnlockDiagnosticVMOptions
         -XX:+PrintFlagsFinal
 
         e.g
 
         java -Xms1g -Xmx2g -XX:+PrintStringTableStatistics -XX:StringTableSize=120121 com.example.Ex2
-
 
 
 ------------------------------------------------------------------------------------------
@@ -759,17 +722,13 @@ Introduction to Garbage Collection
  - Java works out when objects are no longer needed
  - Garbage collection is the process to free up memory 
 
-
 ✔ How Java knows which objects can be removed from the Heap
     - unreachable objects on heap
 
- i.e 
-        Any object on the heap which cannot be reached 
-        through a reference from the stack is 'eligible for garbage collection'
-
+ i.e Any object on the heap which cannot be reached 
+     through a reference from the stack is 'eligible for garbage collection'
 
 ✔ The System.gc() method
-
     - https://docs.oracle.com/javase/7/docs/api/java/lang/System.html#gc()
 
 ✔ Why it's not a good idea to run the System.gc() method
@@ -779,7 +738,6 @@ Introduction to Garbage Collection
 ✔ The danger of using finalize()
 
     
-
 ------------------------------------------------------------------------------------------
 Monitoring the Heap
 ------------------------------------------------------------------------------------------
@@ -790,7 +748,6 @@ Ex4.java
     ✔ Memory leaks shouldn't be possible in java
 
 ✔ Soft Leaks - when an object remains referenced when no longer needed
-
 
  > java -Xmx10m com.example.Ex4
  
@@ -803,7 +760,6 @@ Ex4.java
 ✔ Fixing the problem and checking the heap size    
 
 
-
 ------------------------------------------------------------------------------------------
 Analyzing a heap dump    
 ------------------------------------------------------------------------------------------
@@ -811,39 +767,29 @@ Analyzing a heap dump
 ✔ Generating Heap Dump
 
     way-1:
-
         - command line
-
             -XX:+HeapDumpOnOutOfMemoryError
             -XX:HeapDumpPath=someFilePath
-
         > java -Xmx50m com.examples.Ex4
-
-
     way-2:
-
-    > jmap command line tool
-
+        > jmap command line tool
     way-3 :
-
-    > GUI based pofiling tools 
-
+        > GUI based pofiling tools like jvisualvm,jmc,..
 
 
 ✔ Viewing Heap Dump    
 
-    way-1 : jhat command line tool
+    way-1 : jhat command-line tool
 
     way-2 : Eclipse MAT tool
+
 
 
 ------------------------------------------------------------------------------------------
 garbage collection    
 ------------------------------------------------------------------------------------------
 
-
 ✔ The "Mark and Sweep" process with compact
-
 
 ✔ "Stop-the-world" pause
 
@@ -851,14 +797,14 @@ garbage collection
           from running to execute a GC.
         - GC tuning often means reducing this stop-the-world time.
 
+
 ✔ Generational garbage collection
 
-    This garbage collector was created based on the following two hypotheses.
+    This garbage collector was created based on 
+    the following two hypotheses.
 
      - Most objects soon become unreachable.
-     - References from old objects to young objects only exist in small numbers
-        i.e if an object survives it is likely to live forever
-
+     - References from old objects to young objects only exist in small numbers i.e if an object survives it is likely to live forever
 
 
      ✔ Heap in HotSpot VM.
@@ -880,6 +826,7 @@ garbage collection
     
     ✔ Viewing the heap when there's a soft-leak
     
+
 
 ------------------------------------------------------------------------------------------
 garbage collection tuning & selection  
@@ -1008,7 +955,8 @@ Reachability
 
 any basic Garbage Collection algorithm mainly has two steps.
 
- a. Mark all live objects. These objects are reachable from Garbage Collection roots.
+ a. Mark all live objects. 
+    These objects are reachable from Garbage Collection roots.
  b. Sweep away all unreachable objects.
 
 So, basically there are two types of objects in memory.
@@ -1017,15 +965,19 @@ So, basically there are two types of objects in memory.
     - Unreachable: Any object with no direct path from a Garbage Collection root.            
 
 Reachability and Garbage Collection roots
-What are Garbage Collection roots? The GC roots are the objects accessible from outside the heap. 
+
+What are Garbage Collection roots? 
+The GC roots are the objects accessible from outside the heap. 
 The GC algorithms build a tree of live objects starting from these GC roots.
 
 Following are some GC roots.
 
     System Class: Class loaded by bootstrap/system class loader.
-    Thread Block: Objects referred to from currently active thread blocks. (Basically all objects in active thread blocks when a GC is happening are GC roots)
+    Thread Block: Objects referred to from currently active thread blocks. 
+                  (Basically all objects in active thread blocks when a GC is happening are GC roots)
     Thread: Active Threads
-    Java Local: All local variables (parameters, objects or methods in thread stacks)
+    Java Local: 
+            All local variables (parameters, objects or methods in thread stacks)
     JNI Local: Local variables in native code
     JNI Global: Global variables in native code
    

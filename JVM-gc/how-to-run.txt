@@ -1,0 +1,14 @@
+
+
+
+//#-1
+java -server -Xms1024m -Xmx1024m -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -Xloggc:gc.log com.example.JVMOutOfMemoryError
+
+
+
+//#-2
+java -server -Xms1024m -Xmx1024m -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -Xloggc:gc.log com.example.JVMVerboseGCTest
+
+
+
+
