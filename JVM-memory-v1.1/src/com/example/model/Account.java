@@ -35,11 +35,11 @@ public class Account {
 		this.balance = balance;
 	}
 
-	@Override
-	protected void finalize() throws Throwable {
-		System.out.println("this object is beaing g.c.'d " + this.number + Thread.currentThread().getName());
-		while (true) {
-		}
-	}
+//	@Override
+//	protected void finalize() throws Throwable {
+//		System.out.println("this object is beaing g.c.'d " + this.number + Thread.currentThread().getName());
+//		while (true) {
+//		}
+//	}
 
 }

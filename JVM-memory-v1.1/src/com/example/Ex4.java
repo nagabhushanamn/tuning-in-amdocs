@@ -83,21 +83,21 @@ class TxrRequestQueue {
 
 		// memory leak
 		
-		synchronized (this) {
-			if (lastProcessedId + 1 > nextAvaialbleId) {
-				lastProcessedId++;
-				return queue.get(lastProcessedId);
-			} else
-				return null;
-		}
-
-		// no memory leak
 //		synchronized (this) {
-//			if (queue.size() > 0) {
-//				return queue.remove(0);
+//			if (lastProcessedId + 1 > nextAvaialbleId) {
+//				lastProcessedId++;
+//				return queue.get(lastProcessedId);
 //			} else
 //				return null;
 //		}
+
+		// no memory leak
+		synchronized (this) {
+			if (queue.size() > 0) {
+				return queue.remove(0);
+			} else
+				return null;
+		}
 
 	}
 
