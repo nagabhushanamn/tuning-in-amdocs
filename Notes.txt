@@ -224,20 +224,198 @@ java concurrency
 
 -------------------------------------------------------------------
 
-pogamming languages
+porgamming languages
 --------------------
 
 
 .java   ----->  .class ( byte codes )
 
 
-
               
+-------------------------------------------------------------------              
+
+JDK-monitoing-tools
+--------------------
+
+
+
+Using jps
+----------
+
+
+
+> jps
+> jps -l  
+> jps -m
+> jps -v
+> jps -q
+> jps -help
+
+
+
+Using the jcmd Command
+--------------------------
+
+> jcmd | jps -m
+> jcmd -l
+> jcmd <pid> help
+  
+  information about the VM or the garbage collector (GC) 
+  can be queried and the results returned to the command prompt window.
+
+
+> jcmd <pid> VM.version
+> jcmd <pid> VM.system_properties
+> jcmd <pid> VM.flags
+> jcmd <pid> VM.uptime
+> jcmd <pid> GC.class_histogram > temp.txt
+> jcmd <pid> PerfCounter.print
+
+
+Using the jstat Utility
+--------------------------
+
+
+    > jstat -gcutil <pid> 5000
+
+
+    S0: Survivor space 0 utilization as a percentage of the space's current capacity
+    S1: Survivor space 1 utilization as a percentage of the space's current capacity
+    E: Eden space utilization as a percentage of the space's current capacity
+    O: Old space utilization as a percentage of the space's current capacity
+    P: Permanent space utilization as a percentage of the space's current capacity
+    YGC: Number of young generation GC events
+    YGCT: Young generation garbage collection time
+    FGC: Number of full GC events
+    FGCT: Full garbage collection time
+    GCT: Total garbage collection time
+
+
+    > jstat -gcutil <pid>@remotehost 5000
+
+
+
+heap dump
+----------
+
+Heap dump is a snapshot of the Java memory. 
+It contains information about the Java objects 
+and classes in the heap at the moment the snapshot is triggered.
+
+It’s vital artifact to diagnose any 
+Java memory related problems.
+
+
+using jmap - Memory Map
+-----------------------
+
+jmap [ option ] pid
+jmap [ option ] [server-id@]remote-hostname-or-IP
+
+> jmap -dump:live,format=b,file=<file-name>.hprof  <pid>
+
+
+Heap dumps can be captured using several mechanisms.
+
+way-1
+--------
+ - Identify the Process Id
+    > jps
+ - Capture Heap Dump – jmap
+    > jmap -dump:live,file=<file-path> <pid>
+    e.g
+    jmap -dump:live,file=/opt/tmp/app-heapdump.hprof <pid>
+
+way-2
+-------
+
+    Capture Heap Dump – HeapDumpOnOutOfMemoryError
+    -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/logs/heapdump
 
 
 
 
 
+
+
+using Java Heap Analysis Tool ( jhat )
+--------------------------------------
+
+https://docs.oracle.com/javase/7/docs/technotes/tools/share/jhat.html
+
+
+How to start jhat?
+
+jhat -J-Xmx -port  
+where
+memory-size: JVM argument. memory size with which JVM needs to be launched
+port-number: Port in which jhat web application can be accessed 
+file-path: Location of Heap dump file
+
+
+jhat -J-Xmx2g -port 7001 /opt/workspace/tier1app/artifacts/LeakingMap/heapDump-2.bin
+
+
+Web Access – jhat
+
+ http://localhost:7001
+
+
+using jconsole
+--------------
+
+
+using JvisualVM
+---------------
+
+using jmc ( java missing contol )
+-----------------------------------
+
+    - JMX console
+    - JFR ( java flight recoder)
+
+    
+
+
+
+
+heap dump Analysis tool(s)
+---------------------------
+
+ - Eclipse MAT tool
+
+
+thead dump Analysis
+---------------------------
+
+ - online tools
+
+
+gc logs
+-----------------------------
+
+online tools
+
+ - gcplot
+ - gceasy
+
+- Eclipse gc plugin
+
+
+--------------------------------------------------------
+
+    commercial tools
+    -----------------
+
+        - jpofiler
+        - yourkit
+        ....
+
+---------------------------------------------------------    
+
+
+
+  
 
 
 
