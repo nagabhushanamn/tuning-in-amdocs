@@ -10,9 +10,9 @@ public class Account {
 
 	@Id
 	private String num;
-	private double balance;
+	private Double balance;
 
-	public Account(String num, double balance) {
+	public Account(String num, Double balance) {
 		super();
 		this.num = num;
 		this.balance = balance;
@@ -33,7 +33,7 @@ public class Account {
 		return balance;
 	}
 
-	public void setBalance(double balance) {
+	public void setBalance(Double balance) {
 		this.balance = balance;
 	}
 

@@ -34,16 +34,13 @@ public class TxrSystem {
 						e.printStackTrace();
 					}
 				} else {
-
 //					txrService.txr(request.getAmount(), request.getFromAccNum(), request.getToAccNum());
-				
 					executorService.submit(new Runnable() {
 						@Override
 						public void run() {
 							txrService.txr(request.getAmount(), request.getFromAccNum(), request.getToAccNum());
 						}
 					});
-
 				}
 			}
 

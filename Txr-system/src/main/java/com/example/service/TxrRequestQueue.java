@@ -27,26 +27,26 @@ public class TxrRequestQueue {
 		// memory leak
 		// ---------------------------------------------------------
 
-//		if (requests.size() > 0) {
-//			if (lastProcessedId < requests.size()) {
-//				TxrRequest request = requests.get(lastProcessedId);
-//				lastProcessedId++;
-//				return request;
-//			} else
-//				return null;
-//		} else {
-//			return null;
-//		}
+		if (requests.size() > 0) {
+			if (lastProcessedId < requests.size()) {
+				TxrRequest request = requests.get(lastProcessedId);
+				lastProcessedId++;
+				return request;
+			} else
+				return null;
+		} else {
+			return null;
+		}
 
 		// ---------------------------------------------------------
 		// no memory leak
 		// ---------------------------------------------------------
 
-		if (requests.size() > 0) {
-			return requests.remove(0);
-		} else {
-			return null;
-		}
+//		if (requests.size() > 0) {
+//			return requests.remove(0);
+//		} else {
+//			return null;
+//		}
 
 	}
 
