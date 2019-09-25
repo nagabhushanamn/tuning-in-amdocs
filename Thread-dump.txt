@@ -1,0 +1,16 @@
+
+
+
+  
+
+      1)      Thread Dump overview & fundamentals
+      2)      Thread Dump generation techniques and available tools
+      3)      Thread Dump format differences between Sun HotSpot, IBM JRE and Oracle JRockit
+      4)      Thread Stack Trace explanation and interpretation
+      5)      Thread Dump analysis and correlation techniques
+      6)      Thread Dump common problem patterns (Thread race, deadlock, hanging IO calls, garbage collection / OutOfMemoryError problems, infinite looping etc.)
+      7)      Thread Dump examples via real life case studies
+
+
+
+      

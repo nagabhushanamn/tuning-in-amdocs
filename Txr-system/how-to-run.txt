@@ -1,0 +1,31 @@
+
+Txr-system-v4
+
+
+
+application terminal 1
+--------------------------
+
+./run.sh
+
+
+
+
+
+
+
+
+
+jmeter terminal 2
+------------------
+
+on jmeter-home , bin directory
+
+paste jmeter-txr-system.jmx  file
+
+ >jmeter.sh -n -t jmeter-txr-system.jmx -l jmeter-txr-system.jtl -Jthreads=20000 -Jduration=20
+
+
+ >jmeter.sh -g jmeter-txr-system.jtl -o txr-system-html-report
+
+

@@ -16,6 +16,8 @@ Pauses are the times when an application appears unresponsive because garbage co
 
 //#1
 
+
+
 java -Xms1024m -Xmx1024m -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -Xloggc:gc.log com.example.JVMOutOfMemoryError
 
 
@@ -30,13 +32,14 @@ java -Xms1024m -Xmx1024m -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps 
 Heap Tuning Parameters
 You can control the heap size with the following JVM parameters:
 
+
 -Xmsvalue
 
 -Xmxvalue
 
--XX:MinHeapFreeRatio=minimum
+-XX:MinHeapFreeRatio=minimum  30%
 
--XX:MaxHeapFreeRatio=maximum
+-XX:MaxHeapFreeRatio=maximum 70%
 
 -XX:NewRatio=ratio
 
@@ -48,13 +51,18 @@ You can control the heap size with the following JVM parameters:
 
 
 
+
+
+
 The -Xms and -Xmx parameters define the minimum and maximum heap sizes, respectively
 
 
  java -Xms100m -Xmx100m com.example.JVMHeapTuning 
  
  
- The default NewRatio for the Server JVM is 2:the old generation occupies 2/3 of the heap while the new generation occupies 1/3. 
+ The default NewRatio for the Server JVM is 2:
+ 
+ the old generation occupies 2/3 of the heap while the new generation occupies 1/3. 
  
  
  e.g 1024
@@ -65,7 +73,9 @@ The -Xms and -Xmx parameters define the minimum and maximum heap sizes, respecti
   
   
   By default, the young generation size is controlled by the parameter NewRatio. 
-  For example, setting -XX:NewRatio=3 means that the ratio between the young and tenured generation 
+  
+  For example, setting -XX:NewRatio=3 
+  means that the ratio between the young and tenured generation 
   is 1:3. 
   In other words, the combined size of the eden and survivor spaces will be one-fourth of the total heap size.
  
@@ -78,8 +88,8 @@ The -Xms and -Xmx parameters define the minimum and maximum heap sizes, respecti
   
   java -XX:NewRatio=3 -Xms100m -Xmx200m com.example.JVMHeapTuning 
   
-
   java -XX:NewRatio=3 -Xms100m -Xmx100m com.example.JVMHeapTuning 
+  
   
   java -XX:SurvivorRatio=6 -XX:NewRatio=3 -Xms100m -Xmx100m com.example.JVMHeapTuning 
   
@@ -89,13 +99,17 @@ The -Xms and -Xmx parameters define the minimum and maximum heap sizes, respecti
   To size the Java heap:
 
 	Decide the total amount of memory you can afford for the JVM. 
-	Accordingly, graph your own performance metric against young generation sizes to find the best setting.
+	Accordingly, 
+	graph your own performance metric against young generation sizes to find the best setting.
 	
 	Make plenty of memory available to the young generation. 
 	The default is calculated from NewRatio and the -Xmx setting.
 	
-	Larger eden or younger generation spaces increase the spacing between full GCs. 
+	
+	Larger eden or younger generation spaces increase the spacing between full GCs.
+	 
 	But young space collections could take a proportionally longer time. 
+	
 	In general, keep the eden size between one fourth and one third the maximum heap size. 
 	The old generation must be larger than the new generation.
 	  
@@ -121,6 +135,11 @@ If response time is more important than overall throughput and garbage collectio
   
   
   
+  
+For providing ratio of Eden space and Survivor Space,
+for example if Young Generation size is 10m 
+and VM switch is -XX:SurvivorRatio=2 then 5m will be reserved for Eden Space and 2.5m each for both the Survivor spaces.
+The default value is 8.  
   
   
   

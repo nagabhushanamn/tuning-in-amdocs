@@ -17,7 +17,6 @@ public class JVMOutOfMemoryError {
 	}
 
 	public static void main(String[] args) {
-
 		try {
 			for (int i = 0; i < NB_ITERATIONS; i++) {
 				String data = LEAKING_DATA_PREFIX + i;
