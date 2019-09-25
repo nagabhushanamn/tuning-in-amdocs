@@ -1,0 +1,37 @@
+
+#1
+JDK 1.7 @64-bit – PermGen depletion
+Java program with 50K configured iterations
+Java heap space of 1024 MB
+Java PermGen space of 128 MB (-XX:MaxPermSize=128m)
+
+  java -Xms1024m -Xmx1024m -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps com.example.ClassMetadataLeakSimulator
+
+  ERROR: java.lang.OutOfMemoryError: PermGen space	
+
+#2
+JDK 1.8 @64-bit – Metaspace dynamic re-size
+Java program with 50K configured iterations
+Java heap space of 1024 MB
+Java Metaspace space: unbounded (default)
+
+  java -Xms1024m -Xmx1024m -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps com.example.ClassMetadataLeakSimulator
+
+
+#3
+JDK 1.8 @64-bit – Metaspace depletion
+Java program with 50K configured iterations
+Java heap space of 1024 MB
+Java Metaspace space: 128 MB (-XX:MaxMetaspaceSize=128m)
+
+  java -Xms1024m -Xmx1024m -XX:MaxMetaspaceSize=128m -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps com.example.ClassMetadataLeakSimulator
+
+
+  ERROR: java.lang.OutOfMemoryError: Metadata space
+  Done!
+
+
+
+
+
+

@@ -1,0 +1,61 @@
+
+
+- OutOfMemoryError :PermGen space or Metaspace
+-----------------------------------------------
+
+
+Profiling/Monitoring tool :
+
+    1. Visual VM
+    2. Jconsole (optional)
+    3. Yourkit (optional)
+
+
+Step 1 : Knowing JVM Flags : I am using following flags to get detail info
+
+A. Get full GC information :
+-verbose:gc = Detail GC info
+-XX:+PrintGCDetails = Details GC info
+-XX:+PrintGCTimeStamps = Detail GC with timestamp
+
+B. To enable JMX (for Visual VM/Jconsole/yourkit attachable)
+-Dcom.sun.management.jmxremote=true
+-Dcom.sun.management.jmxremote.port=3000
+-Dcom.sun.management.jmxremote.authenticate=false
+-Dcom.sun.management.jmxremote.ssl=false
+-Djava.rmi.server.hostname=localhost
+Change local host to the IP or host name if you remote profiling.
+
+C. Creating heap dump on error occurrence in my preferred space :
+-XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=D:\OOM
+
+D. Limit Perm Gen space or meta space :
+For Java 8 : -XX:MaxMetaspaceSize=64m
+For Java 6 : -XX:MaxPermSize=64m
+
+So, finally, this is common for all
+-verbose:gc -XX:+PrintGCDetails -XX:+PrintGCTimeStamps
+-Dcom.sun.management.jmxremote=true
+-Dcom.sun.management.jmxremote.port=3000
+-Dcom.sun.management.jmxremote.authenticate=false
+-Dcom.sun.management.jmxremote.ssl=false
+-Djava.rmi.server.hostname=localhost
+-XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=D:\OOM
+
+
+
+Step 2. Scenario:
+
+A PermGen space is used to store following items (source)
+
+1. Methods of a class (including the bytecodes)
+2. Names of the classes (in the form of an object that points to a string also in the permanent generation)
+3. Constant pool information (data read from the class file).
+4. Object arrays and type arrays associated with a class (e.g., an object array containing references to methods).
+5. Internal objects created by the JVM (java/lang/Object or java/lang/exception for instance)
+6. Information used for optimization by the compilers (JITs)
+
+
+
+
+

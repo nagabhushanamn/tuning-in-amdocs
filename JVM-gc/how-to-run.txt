@@ -1,14 +1,127 @@
 
 
 
-//#-1
-java -server -Xms1024m -Xmx1024m -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -Xloggc:gc.log com.example.JVMOutOfMemoryError
+Performance Considerations
+
+There are two primary measures of garbage collection performance:
+
+Throughput is the percentage of total time not spent in garbage collection considered over long periods of time. 
+Throughput includes time spent in allocation (but tuning for speed of allocation is generally not needed).
+
+Pauses are the times when an application appears unresponsive because garbage collection is occurring.
 
 
 
-//#-2
-java -server -Xms1024m -Xmx1024m -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -Xloggc:gc.log com.example.JVMVerboseGCTest
+
+
+//#1
+
+java -Xms1024m -Xmx1024m -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -Xloggc:gc.log com.example.JVMOutOfMemoryError
 
 
 
 
+
+
+
+
+
+
+Heap Tuning Parameters
+You can control the heap size with the following JVM parameters:
+
+-Xmsvalue
+
+-Xmxvalue
+
+-XX:MinHeapFreeRatio=minimum
+
+-XX:MaxHeapFreeRatio=maximum
+
+-XX:NewRatio=ratio
+
+-XX:NewSize=size
+
+-XX:MaxNewSize=size
+
+-XX:+AggressiveHeap
+
+
+
+The -Xms and -Xmx parameters define the minimum and maximum heap sizes, respectively
+
+
+ java -Xms100m -Xmx100m com.example.JVMHeapTuning 
+ 
+ 
+ The default NewRatio for the Server JVM is 2:the old generation occupies 2/3 of the heap while the new generation occupies 1/3. 
+ 
+ 
+ e.g 1024
+ 
+  2/3 * 1024 = 682.666666667  - old gen
+  1/3 * 1024 = 341.333333333  - new gen
+  
+  
+  
+  By default, the young generation size is controlled by the parameter NewRatio. 
+  For example, setting -XX:NewRatio=3 means that the ratio between the young and tenured generation 
+  is 1:3. 
+  In other words, the combined size of the eden and survivor spaces will be one-fourth of the total heap size.
+ 
+  
+  The larger new generation can accommodate many more short-lived objects, 
+  decreasing the need for slow major collections. 
+  
+  The old generation is still sufficiently large enough to hold many long-lived objects.
+  
+  
+  java -XX:NewRatio=3 -Xms100m -Xmx200m com.example.JVMHeapTuning 
+  
+
+  java -XX:NewRatio=3 -Xms100m -Xmx100m com.example.JVMHeapTuning 
+  
+  java -XX:SurvivorRatio=6 -XX:NewRatio=3 -Xms100m -Xmx100m com.example.JVMHeapTuning 
+  
+  
+ 
+  
+  To size the Java heap:
+
+	Decide the total amount of memory you can afford for the JVM. 
+	Accordingly, graph your own performance metric against young generation sizes to find the best setting.
+	
+	Make plenty of memory available to the young generation. 
+	The default is calculated from NewRatio and the -Xmx setting.
+	
+	Larger eden or younger generation spaces increase the spacing between full GCs. 
+	But young space collections could take a proportionally longer time. 
+	In general, keep the eden size between one fourth and one third the maximum heap size. 
+	The old generation must be larger than the new generation.
+	  
+	  
+  
+  
+  
+  
+  
+Collectors
+----------
+  
+  
+  
+If the application has a small data set (up to approximately 100 MB), then select the serial collector with the option -XX:+UseSerialGC.
+
+If the application will be run on a single processor and there are no pause time requirements, then let the VM select the collector, or select the serial collector with the option -XX:+UseSerialGC.
+
+If (a) peak application performance is the first priority and (b) there are no pause time requirements or pauses of 1 second or longer are acceptable, then let the VM select the collector, or select the parallel collector with -XX:+UseParallelGC.
+
+If response time is more important than overall throughput and garbage collection pauses must be kept shorter than approximately 1 second, then select the concurrent collector with -XX:+UseConcMarkSweepGC or -XX:+UseG1GC.
+  
+  
+  
+  
+  
+  
+  
+  
