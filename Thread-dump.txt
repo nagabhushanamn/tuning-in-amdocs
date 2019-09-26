@@ -13,4 +13,16 @@
 
 
 
+
+
+Trick #1 : Know what to ignore in a Thread Dump
+
+Trick #2 : Look at your code first  ( stack trace )
+
+Trick #3 : The longer the thread stack, the more suspicious it is
+
+Trick #4 : Look at multiple thread dumps that are done in short intervals
+
+Trick #5 : Tools might help
+
       

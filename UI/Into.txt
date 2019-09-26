@@ -1,0 +1,93 @@
+
+
+
+
+--------------------------------------
+web-ui
+--------------------------------------
+
+
+UI = data + style + behavior
+
+
+ content  ==> HTML
+ style    ==> CSS
+ behavior ==> javascript
+
+
+
+---------------------------------------------------------------------------------------
+
+what javascript language can do on HTML-page 
+in browser envi?
+
+
+
+using w3c standard web APIs, 
+javascript programs can do any dynamic actions on web-page within browser-envi
+
+w3c standard web APIs
+    ==> DOM, XHR, Timer, ...
+
+imp-note:
+   all w3c standard APIs are implemented by browser vendors nativly,
+   and abstracted ti us as javascript objects & functions    
+
+using DOM API
+----------------
+=> for page manipulation 
+ -> can create,retreive,update,delete HTML elements
+ -> can change element's inner text/html content 
+ -> can change element's attributes/properties
+ -> can change element's styles ( css )
+ -> can validate form-fields before submit to server-program
+ -> can create rich UI-components like  autocomplete, calenders,..
+ ....
+
+using XHR / Fetch API
+-----------------------
+ => for Async communication with server-side programs
+
+using Timer API
+----------------
+ => to execute some action(s) on timeout/interval
+
+
+
+HTML5 New APIs 
+----------------
+https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5
+
+
+----------------------------------------------------------------
+
+
+.javascript is
+
+   => all IO opeations are by non-blocking,
+   => single-theaded process, but concuent actions
+   
+
+
+How browser works ?
+
+   ---------------------------------------------------------
+   
+   -> javascript engine     ==> Ecmascript spec
+         - chrome  --> v8 ( c++ )
+         - fieforx --> rhino / spider monkey
+         - IE/Edge --> chakra
+         - safari  --> nitro
+
+         a. call-stack 
+         b. heap
+
+   -> web apis  ( w3c standards )  ( DOM , XHR , ....)
+
+      caniuse.com      
+
+   -> event/callback-queue   
+
+   -> event-loop
+
+   ---------------------------------------------------------

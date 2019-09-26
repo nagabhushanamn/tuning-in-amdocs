@@ -995,6 +995,88 @@ The Dominator Tree
 
     An object x dominates an object y if every path in the object graph from the start (or the root) node to y must go through x.
     
+-----------------------------------------------------------
+
+JVM-JIT
+ 
+ Ex1.java
+
+✔ Finding out which methods are being compiled in our applications
+
+ > java -XX:+PrintCompilation com.example.Ex1 10
+ > java -XX:+PrintCompilation com.example.Ex1 5000
+
+
+✔ The C1 and C2 Compilers and logging the compilation activity
+
+    c1 
+        - level-1
+        - level-2
+        - level-3
+    c2 
+        - level-4 
+
+    > java -XX:+UnlockDiagnosticVMOptions -XX:+LogCompilation com.example.Ex1 5000
+
+
+
+
+✔ Tuning the code cache size
+
+    > java -XX:+PintCodeCache com.example.Ex1 5000
+
+
+    InitialCodeCache
+    ReservedCodeCache
+    CodeCacheExpansionSize
+
+
+✔ Remotely monitoring the code cache with JConsole
+
+    > jconsole
+
+
+✔ Selecting the JVM
+
+
+    32-bit
+
+        - might be faster if heap < 3gb
+        - Max heap size = 4GB
+
+        c1/client compiler only   
+
+    64-bit
+
+        - might be faster if using long / double
+        - Necessary if heap 4GB
+        - Max heap size - OS dependent
+
+        - c1/client & c2/server compilers
+
+
+✔ Specifying which compiler to use at runtime
+
+         
+
+    > java -XX:+PrintCompilation com.example.Ex1 15000
+    > java -client -XX:+PrintCompilation com.example.Ex1 15000
+    > java -XX:-TieredCompilation -XX:+PrintCompilation com.example.Ex1 15000
+    > java -XX:+TieredCompilation -XX:+PrintCompilation com.example.Ex1 15000
+
+
+
+✔ Tuning native compilation within the Virtual Machine
+
+
+   > java +PrintFlagsFinal
+
+   > jinfo -flag CICompilerCount <pid>
+
+   > java -XX:+CICompilerCount=6 -XX:+PrintCompilation com.example.Ex1 15000
+
+   > java -XX:+CICompileThreshold=1000 -XX:+PrintCompilation com.example.Ex1 15000
+
 
 
 
