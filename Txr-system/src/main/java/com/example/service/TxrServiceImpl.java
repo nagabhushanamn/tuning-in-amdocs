@@ -19,17 +19,14 @@ public class TxrServiceImpl implements TxrService {
 		this.accountRepository = accountRepository;
 	}
 
-
 	@Transactional
-	public  boolean txr(Double amount, String fromAccNum, String toAccNum) {
+	public synchronized boolean txr(Double amount, String fromAccNum, String toAccNum) {
 
-		
 		Account fromAccount = accountRepository.findById(fromAccNum).get();
 		Account toAccount = accountRepository.findById(toAccNum).get();
 
 		fromAccount.setBalance(fromAccount.getBalance() - amount);
 		toAccount.setBalance(toAccount.getBalance() + amount);
-		
 
 		// update accounts
 		accountRepository.save(fromAccount);
@@ -40,7 +37,7 @@ public class TxrServiceImpl implements TxrService {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
+
 		return true;
 	}
 
